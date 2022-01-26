@@ -12,7 +12,6 @@ console.log(musicasArr)
 console.log("Array de números:" );
 console.log(numerosArr)
 
-
 function adicionaInicio(musicasArr, musica) {
    musicasArr.unshift(musica)
    return console.log(musicasArr) 
