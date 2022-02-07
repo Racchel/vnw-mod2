@@ -8,3 +8,12 @@
 6. [X] Cada objeto deve receber as seguintes propriedades: nome,  idade,  telefone, amigos. 
 7. [X] Na propriedade amigos, adicione ao menos 4 itens.
 8. [X] Mostre no console o nome de um amigo de cada lista.
+
+// Objeto é uma coleção de dados
+// Sempre que você cria um objeto, é const
+// sintaxe
+
+const nomeDoObjeto = {
+   propriedade1: valor1,
+   propriedade2: valor2
+}

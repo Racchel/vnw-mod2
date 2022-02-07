@@ -11,7 +11,7 @@
 1. pop(): Remove um item no fim do array
 2. push(): Adiciona items no fim do array
 3. shift(): Remove um item no início do array
-4. unshift(): Adiciona itens no fim do array
+4. unshift(): Adiciona itens no inicio do array
 5. arr.splice(x, y, z): Remove, adiciona e substitui um item do array
 
 * X: é o índice do elemento adicionado, removido ou substituído
