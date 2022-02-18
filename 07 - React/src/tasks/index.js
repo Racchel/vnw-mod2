@@ -4,6 +4,7 @@ import StateRender from './task3/StateRender'
 import ArrowFunction from './task4/ArrowFunction'
 import Map from './task5/Map'
 import Counter from './task6/Counter'
+import Calculator from './calculator/Calculator'
 
 export { 
    HelloWorldClass, 
@@ -11,5 +12,6 @@ export {
    StateRender,
    ArrowFunction,
    Map,
-   Counter
+   Counter,
+   Calculator
 };
