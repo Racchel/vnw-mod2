@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 export const Container = styled.div`
    width: 100%;
-   height: 98vh;
+   height: 95vh;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -11,8 +11,8 @@ export const Container = styled.div`
 
 
 export const Wrapper = styled.div`
-   width: 30%;
-   height: 100%;
+   width: 450px;
+   height: 600px;
    background-color: black;
    border-radius: 1em;
    display: flex;
@@ -24,18 +24,22 @@ export const Wrapper = styled.div`
 `
 export const OnOff = styled.button`
    width: 4em;
-   height: 3em;
+   height: 1.8em;
    position: absolute;
-   background-color: ${props => props.isOn? 'green' : 'red'};
+   background-color: ${props => props.isOn? '#10b710' : '#e53636'};
+   border: none;
+   border-radius: 0.5em;
+   font-weight: bold;
    top: 1em;
    left: 1.8em;
+   font-size: 0.8em;
 `
 
 export const Screen = styled.div`
    width: 95%;
-   height: 9em;
+   height: 7.8em;
    background-color: ${props => props.bg? props.bg : 'white'};
-   color: ${props => props.bg? 'white' : 'blackx'};
+   color: ${props => props.bg? 'white' : 'black'};
    border-radius: 1em;
    margin-bottom: 1em;
    display: flex;
@@ -49,9 +53,10 @@ export const Screen = styled.div`
 export const Historic = styled.p`
    font-size: 14px;
    color: white;
+   margin-top: 2.5em;
 `
 export const Number = styled.h1`
-   font-size: 2.9em;
+   font-size: 2.7em;
    color: white;
    margin-top: 0.5em;
 `
@@ -62,17 +67,19 @@ export const Keyboard = styled.div`
 `
 
 export const Button = styled.button`
-   width: 3em;
-   height: 3em;
+   width: 2.8em;
+   height: 2.8em;
    font-size: 1.5em;
    border: none;
+   outline: none;
    border-radius: 2em;
    margin: 0.3em 0.4em;
-   background-color: ${props => props.bg? props.bg : 'white'};
+   background-color: ${props => props.bg[0]? props.bg[0] : 'white'};
    color: ${props => props.bg === 'white'? 'black' : 'white'};
    font-weight: bold;
 
    &:hover {
       cursor: pointer;
+      background-color: ${props => props.bg[0]? props.bg[1] : 'white'};
    }
 `

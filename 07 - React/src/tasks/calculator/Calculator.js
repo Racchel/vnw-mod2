@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import * as S from './style.js'
-import Button from './components/Button.js'
 
 export default class Calculator extends Component {
   state = {
     // paleta de cores usada
-    color: ['#FF9500', '#505050', '#232020', '#eded70', 'white'],
+    color: [['#FF9500', '#d98106'], ['#505050', '#606060'], ['#232020', '#233030'], ['#eded70', ''], 'white'],
     // numero que aparece na tela
-    number: 0,
+    number: 'OFF',
     oldNumber: 0,
     operatorInput: '',
     result: 0,
@@ -111,23 +110,39 @@ export default class Calculator extends Component {
   turnOn = () => {
     const { isOn } = this.state
 
-    isOn? this.setState({ isOn:  false }): this.setState({ isOn:  true })
-    console.log(isOn)
+    if (isOn) {
+      this.setState({ isOn:  false })
+      this.setState({ number: 'OFF' })
+    } else {
+      this.setState({ isOn:  true })
+      this.setState({ number: 0 })
+    }
+
+    this.setState({ historic: '' })
   }
 
-  // verifica se a calculadora está ligada 
-   isCalculatorOn = (e) => {
+  // Verifica se esta ligada
+  isCalcOn = (e) => {
+    console.log('isso é um teste')
     const { isOn } = this.state
     const value = e.target.value
+    const isNumber = !isNaN(value)
 
     if (isOn) {
-      if(typeof e === Number) {}
+      if(value === 'CE')  { this.cancelEntry() }
+      if(value === '+/-') { this.changeSing()  }
+      if(value === '%')   { this.porcentage()  }
+      if(value === '+' || value === '-' || value === 'X' || value === '/' ) { this.opertHandle(e)  }
+      if(isNumber) { this.inputNumber(e) }
+      if(value === 'cl')  { this.clear()  }
+      if(value === '=')   { this.calculate()  }
 
     } else {
+      this.setState({ historic: 'A calculadora está desligada! Ligue antes de usar!'})
       console.log('A calculadora está desligada! Ligue antes de usar!')
-    }
-    
-   }
+    } 
+  }
+
 
   render() {
   
@@ -141,26 +156,26 @@ export default class Calculator extends Component {
               <S.Number>{ this.state.number }</S.Number>
             </S.Screen>
             <S.Keyboard>
-              <S.Button bg={ this.state.color[4] } onClick={ this.cancelEntry } value={'CE'}  > CE  </S.Button>  
-              <S.Button bg={ this.state.color[4] } onClick={ this.changeSing  } value={'+/-'} > +/- </S.Button> 
-              <S.Button bg={ this.state.color[4] } onClick={ this.porcentage  } value={'%'}   > %   </S.Button>   
-              <S.Button bg={ this.state.color[0] } onClick={ this.opertHandle } value={'/'}   > /   </S.Button>      
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 7 }   > 7   </S.Button>  
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 8 }   > 8   </S.Button>  
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 9 }   > 9   </S.Button>   
-              <S.Button bg={ this.state.color[0] } onClick={ this.opertHandle } value='X'     > X   </S.Button>  
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 4 }   > 4   </S.Button>  
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 5 }   > 5   </S.Button>     
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 6 }   > 6   </S.Button>     
-              <S.Button bg={ this.state.color[0] } onClick={ this.opertHandle } value='-'     > -   </S.Button>      
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 1 }   > 1   </S.Button>      
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 2 }   > 2   </S.Button>        
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 3 }   > 3   </S.Button>        
-              <S.Button bg={ this.state.color[0] } onClick={ this.opertHandle } value='+'     > +   </S.Button>          
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={ 0 }   > 0   </S.Button>   
-              <S.Button bg={ this.state.color[1] } onClick={ this.inputNumber } value={'.'}   > ,   </S.Button> 
-              <S.Button bg={ this.state.color[3] } onClick={ this.clear }       value={'🧹'}  > 🧹  </S.Button>   
-              <S.Button bg={ this.state.color[4] } onClick={ this.calculate   } value='='     > =   </S.Button>    
+              <S.Button bg={ this.state.color[4] } onClick={ this.isCalcOn } value={'CE'}  > CE  </S.Button>  
+              <S.Button bg={ this.state.color[4] } onClick={ this.isCalcOn } value={'+/-'} > +/- </S.Button> 
+              <S.Button bg={ this.state.color[4] } onClick={ this.isCalcOn } value={'%'}   > %   </S.Button>   
+              <S.Button bg={ this.state.color[0] } onClick={ this.isCalcOn } value={'/'}   > /   </S.Button>      
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 7 }   > 7   </S.Button>  
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 8 }   > 8   </S.Button>  
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 9 }   > 9   </S.Button>   
+              <S.Button bg={ this.state.color[0] } onClick={ this.isCalcOn } value='X'     > X   </S.Button>  
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 4 }   > 4   </S.Button>  
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 5 }   > 5   </S.Button>     
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 6 }   > 6   </S.Button>     
+              <S.Button bg={ this.state.color[0] } onClick={ this.isCalcOn } value='-'     > -   </S.Button>      
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 1 }   > 1   </S.Button>      
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 2 }   > 2   </S.Button>        
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 3 }   > 3   </S.Button>        
+              <S.Button bg={ this.state.color[0] } onClick={ this.isCalcOn } value='+'     > +   </S.Button>          
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={ 0 }   > 0   </S.Button>   
+              <S.Button bg={ this.state.color[1] } onClick={ this.isCalcOn } value={'.'}   > ,   </S.Button> 
+              <S.Button bg={ this.state.color[3] } onClick={ this.isCalcOn } value={'cl'}  > 🧹  </S.Button>   
+              <S.Button bg={ this.state.color[4] } onClick={ this.isCalcOn } value='='     > =   </S.Button>    
             </S.Keyboard>
           </S.Wrapper>
         </S.Container>
