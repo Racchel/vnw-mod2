@@ -22,8 +22,8 @@ export const Wrapper = styled.div`
 export const Screen = styled.div`
    width: 95%;
    height: 6em;
-   background-color: ${props => props.backColor? props.backColor : 'white'};
-   color: ${props => props.backColor? 'white' : 'blackx'};
+   background-color: ${props => props.bg? props.bg : 'white'};
+   color: ${props => props.bg? 'white' : 'blackx'};
    border-radius: 1em;
    margin-bottom: 1em;
    display: flex;
@@ -39,7 +39,7 @@ export const Keyboard = styled.div`
 `
 
 export const Number = styled.h1`
-   font-size: 3.5em;
+   font-size: 2.9em;
    color: white;
 `
 
@@ -50,8 +50,8 @@ export const Button = styled.button`
    border: none;
    border-radius: 2em;
    margin: 0.3em 0.4em;
-   background-color: ${props => props.backColor? props.backColor : 'white'};
-   color: ${props => props.backColor? 'white' : 'blackx'};
+   background-color: ${props => props.bg? props.bg : 'white'};
+   color: ${props => props.bg? 'white' : 'blackx'};
    font-weight: bold;
 
    &:hover {

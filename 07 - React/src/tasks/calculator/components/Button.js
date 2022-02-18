@@ -15,7 +15,7 @@ export default class Button extends Component {
    render (props) {
 
       return (
-      <S.Button backColor={ props.backColor } onClick={(e) => this.inputNumber(e.target.value)}>
+      <S.Button bg={ props.bg } onClick={(e) => this.inputNumber(e.target.value)}>
          { props.content }
       </S.Button>
       )
