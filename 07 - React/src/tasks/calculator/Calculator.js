@@ -6,10 +6,10 @@ export default class Calculator extends Component {
     // paleta de cores usada
     color: [['#FF9500', '#d98106'], ['#505050', '#606060'], ['#232020', '#233030'], ['#eded70', ''], 'white'],
     // numero que aparece na tela
-    number: 'OFF',
-    oldNumber: 0,
+    screen: 'OFF',
+    number: '',
+    oldNumber: '',
     operatorInput: '',
-    result: 0,
     historic: '',
     isOn: false
   }
@@ -22,20 +22,25 @@ export default class Calculator extends Component {
 
     // maximo 12 digitos  
     if (length <= 12 ) {
-      number === 0 
+      if (number === '') {
         // se for o primeiro digito, substitui -> não concatena
-        ? this.setState({ number: e.target.value}) 
+        this.setState({ screen: e.target.value}) 
+        this.setState({ number: e.target.value}) 
+      } else {
         // concatena numeros digitados para apresentar na telinha
-        : this.setState({ number: input})
+        this.setState({ screen: input})
+        this.setState({ number: input})
+      }        
     } else {
       // atingindo o limite de 12 digitos, para de concatenar
-      this.setState({ number: number}) 
+      this.setState({ screen: number}) 
+      this.setState({ number: number})
     }
   }
 
   // limpa tela -> vassoura
   clear = (e) => {
-    this.setState({ number: 0})
+    this.setState({ screen: 0, number: '', oldNumber: '' })
   }
 
   // calcula a porcentagem
@@ -61,22 +66,23 @@ export default class Calculator extends Component {
     const numberN = parseFloat(number)
 
     let resultado = 0
-
-    if (operatorInput === '+') {
-      resultado = oldNumberN + numberN 
-    }
-    if (operatorInput === '-') {
-      resultado = oldNumberN - numberN 
-    }
-    if (operatorInput === 'X') {
-      resultado = oldNumberN * numberN 
-    }
-    if (operatorInput === '/') {
-      resultado = oldNumberN / numberN 
+    if (this.state.number !== '' && this.state.oldNumber !== '') { 
+      if (operatorInput === '+') {
+        resultado = oldNumberN + numberN 
+      }
+      if (operatorInput === '-') {
+        resultado = oldNumberN - numberN 
+      }
+      if (operatorInput === 'X') {
+        resultado = oldNumberN * numberN 
+      }
+      if (operatorInput === '/') {
+        resultado = oldNumberN / numberN 
+      }
     }
     
     this.setState({ number: resultado})
-    this.setState({ result: resultado})
+    this.setState({ screen: resultado})
 
     this.historic(resultado)
   }
@@ -87,7 +93,8 @@ export default class Calculator extends Component {
 
     this.setState({ operatorInput:  e.target.value })
     this.setState({ oldNumber:  number })
-    this.setState({ number:  0 })
+    this.setState({ number: '' })
+    this.setState({ screen: 0 })
   }
 
   // apaga o ultimo numero
@@ -112,10 +119,12 @@ export default class Calculator extends Component {
 
     if (isOn) {
       this.setState({ isOn:  false })
-      this.setState({ number: 'OFF' })
+      this.setState({ number: '' })
+      this.setState({ screen: 'OFF'})
     } else {
       this.setState({ isOn:  true })
-      this.setState({ number: 0 })
+      this.setState({ number: '' })
+      this.setState({ screen: 0 })
     }
 
     this.setState({ historic: '' })
@@ -128,14 +137,24 @@ export default class Calculator extends Component {
     const value = e.target.value
     const isNumber = !isNaN(value)
 
+    // essas operações só podem ser realizadas se a calculadora estiver ligada
     if (isOn) {
-      if(value === 'CE')  { this.cancelEntry() }
-      if(value === '+/-') { this.changeSing()  }
-      if(value === '%')   { this.porcentage()  }
-      if(value === '+' || value === '-' || value === 'X' || value === '/' ) { this.opertHandle(e)  }
+
+      // essas operações só podem ser realizadas se o 1 numero for selecionado
+      if (this.state.number !== '') { 
+        if(value === 'CE')  { this.cancelEntry() }
+        if(value === '+/-') { this.changeSing()  }
+        if(value === '%')   { this.porcentage()  }
+        if(value === '+' || value === '-' || value === 'X' || value === '/' ) { this.opertHandle(e)  }
+        if(value === 'cl')  { this.clear()  }
+      }
+
+      // essa operação só podem ser realizadas se o 1 e 2 numero forem selecionados
+      if (this.state.number !== '' && this.state.oldNumber !== '' ) { 
+        if(value === '=')   { this.calculate()  }
+      }
+
       if(isNumber) { this.inputNumber(e) }
-      if(value === 'cl')  { this.clear()  }
-      if(value === '=')   { this.calculate()  }
 
     } else {
       this.setState({ historic: 'A calculadora está desligada! Ligue antes de usar!'})
@@ -153,7 +172,7 @@ export default class Calculator extends Component {
             <S.OnOff isOn={ this.state.isOn } onClick={ this.turnOn } >{ this.state.isOn? 'ON' : 'OFF' } </S.OnOff>
             <S.Screen bg={ this.state.color[2] }>
               <S.Historic>{ this.state.historic }</S.Historic>
-              <S.Number>{ this.state.number }</S.Number>
+              <S.Number>{ this.state.screen }</S.Number>
             </S.Screen>
             <S.Keyboard>
               <S.Button bg={ this.state.color[4] } onClick={ this.isCalcOn } value={'CE'}  > CE  </S.Button>  
